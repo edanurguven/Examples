@@ -1,0 +1,38 @@
+1. Set Kullanarak:
+Set veri yapısını kullanarak benzersiz değerleri koruyabilirsiniz.
+----------------
+let array = ["elma", "armut", "elma", "kiraz", "armut"];
+
+let uniqueArray = [...new Set(array)];
+console.log(uniqueArray);
+----------------
+Bu yöntem, sadece benzersiz değerlere sahip olan uniqueArray dizisini oluşturacaktır.
+*********************************************************************
+2. filter ve indexOf Kullanarak:
+filter ve indexOf kullanarak benzersiz değerleri elde edebilirsiniz.
+
+----------------
+let array = ["elma", "armut", "elma", "kiraz", "armut"];
+
+let uniqueArray = array.filter((value, index, self) => {
+    return self.indexOf(value) === index;
+});
+
+console.log(uniqueArray);
+------------------
+*********************************************************************
+3. reduce Kullanarak:
+reduce fonksiyonunu kullanarak benzersiz değerleri elde edebilirsiniz.
+------------------
+let array = ["elma", "armut", "elma", "kiraz", "armut"];
+
+let uniqueArray = array.reduce((accumulator, currentValue) => {
+    if (!accumulator.includes(currentValue)) {
+        accumulator.push(currentValue);
+    }
+    return accumulator;
+}, []);
+
+console.log(uniqueArray);
+-------------------
+Her üç yöntem de size benzersiz değerlere sahip bir dizi sağlayacaktır. Hangi yöntemi tercih edeceğiniz kişisel tercihlere ve kullanım durumlarına bağlıdır.
