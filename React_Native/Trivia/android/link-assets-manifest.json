@@ -1,0 +1,21 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/BungeeShade-Regular.ttf",
+      "sha1": "ba5515eeed9add3dde10e5195faf9b3a47c591b3"
+    },
+    {
+      "path": "assets/fonts/FuzzyBubbles-Bold.ttf",
+      "sha1": "57062efded86f67fc7c122f01f3eba08f65f6bb4"
+    },
+    {
+      "path": "assets/fonts/FuzzyBubbles-Regular.ttf",
+      "sha1": "61be2e9e6954191b78155577952adf894c19f8e7"
+    },
+    {
+      "path": "assets/fonts/RubikDoodleShadow-Regular.ttf",
+      "sha1": "1b0092781395a98142548d15929cfbb2c16e2334"
+    }
+  ]
+}

@@ -77,17 +77,9 @@
       </div>
 
       <ul id="list">
-
+        
       </ul>
       <script src="./index.js"></script>
-      <script>
-        let listItems = JSON.parse(localStorage.getItem('list'));
-        console.log(listItems)
-        for (let i = 0; i<listItems.length ; i++) {
-            let item=listItems[i]
-            document.querySelector('#liste').innerHTML += `<li>${item}</li>`;
-        }
-      </script>
       <script
         src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
