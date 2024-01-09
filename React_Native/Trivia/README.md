@@ -9,3 +9,10 @@
 1. Oyundan çıkınca veya oyunu bitirince stack sıfırlama işlemi yapıldı (ResetStackOnExit)
 
 
+## Görseller
+<img src="img/trivia1.png"  width="200"/>
+<img src="img/trivia2.png"  width="200"/>
+<img src="img/trivia3.png"  width="200"/>
+<img src="img/trivia4.png"  width="200"/>
+
+
