@@ -5,21 +5,20 @@ import Loading from '../components/Loading';
 import Error from '../components/Error';
 import Config from 'react-native-config';
 
-export default GameScreen = () =>{
+export default GameScreen = (props) =>{
 
-    const [trueAnswer,setTrueAnswer] = useState(0);
-    const [falseAnswer,setFalseAnswer] = useState(0);
-    const [emptyAnswer,setEmptyAnswer] = useState(0);
-    const [counter,setCounter] = useState(0);
-    const [queueData,setQueueData] = useState(null);
+    const navigation = props.navigation;
+    let [timeRemaining, setTimeRemaining] =useState(12);
+    let [trueAnswer,setTrueAnswer] = useState(0);
+    let [falseAnswer,setFalseAnswer] = useState(0);
+    let [emptyAnswer,setEmptyAnswer] = useState(0);
+    let [counter,setCounter] = useState(0);
+    let [queueData,setQueueData] = useState(null);
     //nomalde API globalde seçilen türe göre şekil alacak şu anlık hazır seçili aldık.
     const {error,loading,data} = useFetch(Config.API);
-    console.log("api : ",Config.API);
-    console.log("results:" , data.results)
     const optionsArray = data.results ? 
-        [{incorrect_answers:(data.results[counter].incorrect_answers)},{correct_answer:(data.results[counter].correct_answer)}] : []; 
-    console.log(optionsArray);
-
+    [{ incorrect_answers: (data.results[counter]?.incorrect_answers || []) }, { correct_answer: (data.results[counter]?.correct_answer || '') }] : []; 
+        //[{incorrect_answers:(data.results[counter].incorrect_answers)},{correct_answer:(data.results[counter].correct_answer)}] : []; 
 
     useEffect(()=>{
         dataCheck(data.results);
@@ -27,16 +26,27 @@ export default GameScreen = () =>{
 
     async function dataCheck(data){
         if(await data != undefined){
-
             setQueueData(data[counter]);
-            console.log("queuData:",queueData);
         }
     }
 
 
-    async function loadData(){
 
-    }
+    useEffect(()=>{ 
+        /*
+        const timer = setInterval(()=>{
+            if(timeRemaining >0){
+                setTimeRemaining(timeRemaining - 1);
+            }else{
+                setCounter(counter + 1);
+            }
+        },1000)  */
+        console.log("COUNTER:",counter)
+        if(counter >= 10){
+            console.log("Navigating to FinishScreen...");
+            navigation.navigate('FinishScreen', { trueAnswer: trueAnswer });
+        }
+    },[counter,navigation])  //,timeRemaining
 
     if(loading){
         return <Loading/>;
@@ -54,33 +64,59 @@ export default GameScreen = () =>{
           [newArray[i], newArray[randomIndex]] = [newArray[randomIndex], newArray[i]];
         }
         return newArray;
-      }
-    
-      
-    const options =(value)=>{
+    }
 
-        if(value.length !== 0){
+    const handlerChosenOption = (correctAnswer,chosenAnswer)=>{
+        if(counter<10){
+            setCounter((prev) => prev + 1);
+            if(correctAnswer === chosenAnswer){
+                setTrueAnswer((prev) => prev + 1);
+            }else if(correctAnswer !== chosenAnswer){
+                setFalseAnswer((prev) => prev + 1);
+            }else{
+                setEmptyAnswer((prev) => prev + 1);
+            }
+        }else{
+            
+        }
+    }
+    
+    const questions =(value)=>{
+        if(value.length !== 0 ){
             let values = [];
+            let correct = "";
             value.forEach(element => {
                 if(element.incorrect_answers){
                     values =[...element.incorrect_answers];
                 }else if(element.correct_answer){
                     values = [...values,element.correct_answer+" * "];
+                    correct = element.correct_answer+" * ";
                 }
             });
-            console.log("values:",values);
             const shuffledArray = shuffleArray(values);
-            return (
-                shuffledArray.map((_,index)=>(
-                    <View key={index}>
-                        <View style={style.option}>
-                            <TouchableOpacity >
-                                <Text style={style.text}>{shuffledArray[index]}</Text>
-                            </TouchableOpacity>
+                if(counter<10){
+                    return (
+                        <View>
+                            <Text style={style.queueNumber}>Question - {counter+1} </Text>
+                            <View style={style.questionCard}>
+                                <Text style={style.questionText}>{data.results[counter].question}</Text>
+                            </View>
+                            {shuffledArray.map((_,index)=>(
+                            <View key={index}>
+                                <TouchableOpacity onPress={()=>{handlerChosenOption(correct,shuffledArray[index])}}>
+                                    <View style={style.option}>
+                                        <Text style={style.text}>{shuffledArray[index]}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        )) }
                         </View>
-                    </View>
-                ))
-            );
+                       
+                    );
+                }else{
+                  //  ()=>navigation.navigate("FinishScreen", { trueAnswer: trueAnswer });
+                }
+                
         } else{
             return <Loading/>
         }
@@ -95,12 +131,8 @@ export default GameScreen = () =>{
                 <Text style={style.queueNumber}>False:{falseAnswer}</Text>
                 <Text style={style.queueNumber}>Empty:{emptyAnswer}</Text>
             </View>
-            <Text style={style.queueNumber}>Question - {counter+1} </Text>
-            <View style={style.questionCard}>
-                <Text style={style.questionText}>{data.results[counter].question}</Text>
-            </View>
             <View>
-                {options(optionsArray)}
+                {questions(optionsArray)}
             </View>
             
         </View>
@@ -120,15 +152,15 @@ const style= StyleSheet.create({
         color:'black',
     },
     text:{
-        fontSize:20,
+        fontSize:16,
         color:'black',
     },
     option:{
         borderWidth: 3,
         borderColor:"#FACFFF",
         borderRadius:20,
-        padding:10,
-        width:300,
+        padding:5,
+        width:350,
         height:60,
         margin:4,
         backgroundColor:'white',

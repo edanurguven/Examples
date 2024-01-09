@@ -6,4 +6,6 @@
 1. Fetch işlemi için axios paketi kuruldu.
 1. Dropdown işlemi için react-native-dropdown-picker paketi kuruldu. 
 1. redux kuruldu.
+1. Oyundan çıkınca veya oyunu bitirince stack sıfırlama işlemi yapıldı (ResetStackOnExit)
+
 
