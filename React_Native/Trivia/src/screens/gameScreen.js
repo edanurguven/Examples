@@ -4,11 +4,11 @@ import useFetch from '../hooks/useFetch/index';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import Config from 'react-native-config';
+import AnimationLine from '../components/AnimationLine/AnimationLine';
 
 export default GameScreen = (props) =>{
 
     const navigation = props.navigation;
-    let [timeRemaining, setTimeRemaining] =useState(12);
     let [trueAnswer,setTrueAnswer] = useState(0);
     let [falseAnswer,setFalseAnswer] = useState(0);
     let [emptyAnswer,setEmptyAnswer] = useState(0);
@@ -30,17 +30,24 @@ export default GameScreen = (props) =>{
         }
     }
 
+    useEffect(()=>{
+        const interval = setInterval(() => {
+            if(!(counter>=10)){
+                setCounter((prev) => prev + 1);
+                setEmptyAnswer((prev) => prev+1);
+            }
+        }, 5000);
+
+        return() =>clearInterval(interval);
+       //r setTimeout(() => {console.log("hello-2");setCounter(counter++);}, 5000);
+    },[counter])
+
+    useEffect(()=>{
+        
+    },[counter])
 
 
     useEffect(()=>{ 
-        /*
-        const timer = setInterval(()=>{
-            if(timeRemaining >0){
-                setTimeRemaining(timeRemaining - 1);
-            }else{
-                setCounter(counter + 1);
-            }
-        },1000)  */
         console.log("COUNTER:",counter)
         if(counter >= 10){
             console.log("Navigating to FinishScreen...");
@@ -98,6 +105,7 @@ export default GameScreen = (props) =>{
                     return (
                         <View>
                             <Text style={style.queueNumber}>Question - {counter+1} </Text>
+                            <AnimationLine lineWitdh={350}/>
                             <View style={style.questionCard}>
                                 <Text style={style.questionText}>{data.results[counter].question}</Text>
                             </View>

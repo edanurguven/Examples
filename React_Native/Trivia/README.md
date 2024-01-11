@@ -7,6 +7,7 @@
 1. Dropdown işlemi için react-native-dropdown-picker paketi kuruldu. 
 1. redux kuruldu.
 1. Oyundan çıkınca veya oyunu bitirince stack sıfırlama işlemi yapıldı (ResetStackOnExit)
+1. Animasyonlu çizgi oluştuurlması için "react-native-reanimated" "react-native-gesture-handler" paketleri indirildi.
 
 
 ## Görseller
