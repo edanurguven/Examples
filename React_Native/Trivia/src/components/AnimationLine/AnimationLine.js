@@ -5,7 +5,7 @@ const AnimationLine = (props) => {
   const lineWidth = props.lineWidth;
   const time = props.time;
 
-  const [animation] = useState(new Animated.Value(0));
+  const [ animation ] = useState(new Animated.Value(0));
 
   useEffect(() => {
     // Burada süre ile ilgili değişiklikleri takip edebilir ve animasyonu güncelleyebilirsin
@@ -13,10 +13,21 @@ const AnimationLine = (props) => {
     Animated.timing(animation, {
       toValue: 1, // 1'e ulaşıncaya kadar olan süre
       duration: duration,
-      useNativeDriver: false, // useNativeDriver true ise animasyon daha performanslı çalışır
+      useNativeDriver: true, // useNativeDriver true ise animasyon daha performanslı çalışır
     }).start();
   }, [animation]);
 
+   /*
+   // Önce test et sonra titret
+    useEffect(() => {
+    // Burada süre ile ilgili değişiklikleri takip edebilir ve animasyonu güncelleyebilirsin
+    Animated.timing(animation, {
+      toValue: 0, // 1'e ulaşıncaya kadar olan süre
+      duration: 0,
+      useNativeDriver: true, // useNativeDriver true ise animasyon daha performanslı çalışır
+    }).start();
+  }, [props.questionId]);
+  */
   const interpolatedColor = animation.interpolate({
     inputRange: [0, 1],
     outputRange: ['rgba(247, 157, 163, 1)','rgba(247, 157, 163, 1)'],
@@ -45,7 +56,6 @@ const styles = StyleSheet.create({
     margin:10,
     backgroundColor: '#f7cbc1',
     borderRadius:20,
-
   },
   line: {
     height: 10,
