@@ -38,7 +38,7 @@ const DropDownButton=({array,zIndex,label,onValueChange = () => {}})=>{
                     value={value}
                     items={items}
                     setOpen={setOpen}
-                    setValue={this.handleValueChange}
+                    onChangeValue={this.handleValueChange}
                     setItems={setItems}
                     containerStyle={style.dropDownContainer}
                     zIndex={zIndex}
